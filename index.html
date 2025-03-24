@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Халгаева Айлина — Портфолио</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="main-content">
+        <header class="header">
+            <div class="container">
+                <h1>Халгаева Айлина</h1>
+                <p>Художник / Студент</p>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Главная</a></li>
+                        <li><a href="about.html">О себе</a></li>
+                        <li><a href="contact.html">Контакты</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <section class="welcome">
+            <div class="container">
+                <h2>Добро пожаловать в мое портфолио!</h2>
+                <p>Здесь вы найдете информацию обо мне и моих работах.</p>
+            </div>
+            <input type="file" id="upload" accept=".xlsx, .xls" />
+<div id="excel-data"></div>
+        </section>
+
+        <footer class="footer">
+            <div class="container">
+                <p>© Халгаева Айлина | Все права защищены</p>
+                <script>
+                    document.getElementById('upload').addEventListener('change', handleFile, false);
+            
+                    function handleFile(event) {
+                        const file = event.target.files[0];
+                        const reader = new FileReader();
+            
+                        reader.onload = function(e) {
+                            const data = new Uint8Array(e.target.result);
+                            const workbook = XLSX.read(data, { type: 'array' });
+            
+                            // Получаем первый лист
+                            const firstSheetName = workbook.SheetNames[0];
+                            const worksheet = workbook.Sheets[firstSheetName];
+            
+                            // Преобразуем данные в HTML
+                            const html = XLSX.utils.sheet_to_html(worksheet);
+                            document.getElementById('excel-data').innerHTML = html;
+                        };
+            
+                        reader.readAsArrayBuffer(file);
+                    }
+                </script>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
